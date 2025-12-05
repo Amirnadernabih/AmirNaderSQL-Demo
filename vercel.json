@@ -9,6 +9,6 @@
     { "source": "/static/:path*", "destination": "/static/:path*" },
     { "source": "/(asset-manifest.json|manifest.json|robots.txt)", "destination": "/$1" },
     { "source": "/favicon.ico", "destination": "/favicon.ico" },
-    { "source": "/:path*", "destination": "/index.html" }
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
