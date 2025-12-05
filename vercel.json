@@ -4,13 +4,11 @@
     { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "build" } },
     { "src": "api/**/*.js", "use": "@vercel/node" }
   ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/static/(.*)", "dest": "/static/$1" },
-    { "src": "/asset-manifest.json", "dest": "/asset-manifest.json" },
-    { "src": "/manifest.json", "dest": "/manifest.json" },
-    { "src": "/robots.txt", "dest": "/robots.txt" },
-    { "src": "/favicon.ico", "dest": "/favicon.ico" },
-    { "src": "/(.*)", "dest": "/index.html" }
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/:path*" },
+    { "source": "/static/:path*", "destination": "/static/:path*" },
+    { "source": "/(asset-manifest.json|manifest.json|robots.txt)", "destination": "/$1" },
+    { "source": "/favicon.ico", "destination": "/favicon.ico" },
+    { "source": "/:path*", "destination": "/index.html" }
   ]
 }
