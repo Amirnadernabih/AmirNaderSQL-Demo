@@ -9,6 +9,14 @@ module.exports = (req, res) => {
     return res.status(200).end();
   }
 
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST, OPTIONS");
+    return res.status(405).json({
+      success: false,
+      message: "Method Not Allowed"
+    });
+  }
+
   const { username, password } = req.body || {};
 
   const query = `SELECT * FROM users WHERE username = ? AND password = ?`;
@@ -25,7 +33,7 @@ module.exports = (req, res) => {
       message: "✅ Login successful with prepared statement"
     });
   } else {
-    return res.json({
+    return res.status(200).json({
       success: false,
       query,
       parameters,
@@ -33,4 +41,3 @@ module.exports = (req, res) => {
     });
   }
 };
-

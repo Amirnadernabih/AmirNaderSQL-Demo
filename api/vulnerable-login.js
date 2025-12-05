@@ -9,6 +9,14 @@ module.exports = (req, res) => {
     return res.status(200).end();
   }
 
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST, OPTIONS");
+    return res.status(405).json({
+      success: false,
+      message: "Method Not Allowed"
+    });
+  }
+
   const { username, password } = req.body || {};
   const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
 
@@ -36,7 +44,7 @@ module.exports = (req, res) => {
       message: injectionDetected ? "⚠️ SQL Injection successful! Authentication bypassed!" : "Login successful"
     });
   } else {
-    return res.json({
+    return res.status(200).json({
       success: false,
       query,
       injectionDetected: false,

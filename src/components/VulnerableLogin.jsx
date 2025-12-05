@@ -46,22 +46,30 @@ export default function VulnerableLogin() {
   async function handleLogin() {
     setLoading(true);
     resetSteps();
-    setStep(0, "loading");
-    await sleep(300);
-    setStep(0, "done");
-    setStep(1, "loading");
-    await sleep(300);
-    setStep(1, "done");
-    setStep(2, "loading");
-    setStep(3, "loading");
-    const res = await vulnerableLogin(username, password);
-    setStep(2, "done");
-    setStep(3, "done");
-    setStep(4, "done", res.injectionDetected ? "Injection detected" : "No injection");
-    setStep(5, res.success ? "done" : "error", res.message);
-    setLoginResult(res);
-    setStep(6, "done");
-    setLoading(false);
+    try {
+      setStep(0, "loading");
+      await sleep(300);
+      setStep(0, "done");
+      setStep(1, "loading");
+      await sleep(300);
+      setStep(1, "done");
+      setStep(2, "loading");
+      setStep(3, "loading");
+      const res = await vulnerableLogin(username, password);
+      setStep(2, "done");
+      setStep(3, "done");
+      setStep(4, "done", res.injectionDetected ? "Injection detected" : "No injection");
+      setStep(5, res.success ? "done" : "error", res.message);
+      setLoginResult(res);
+      setStep(6, "done");
+    } catch (err) {
+      setStep(2, "error", String(err.message || err));
+      setStep(3, "error");
+      setStep(5, "error");
+      setLoginResult({ success: false, query: "", injectionDetected: false, message: String(err.message || err) });
+    } finally {
+      setLoading(false);
+    }
   }
 
   function fillPayload(payload) {
