@@ -3,5 +3,11 @@
   "builds": [
     { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "build" } },
     { "src": "api/**/*.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/get-users", "dest": "/api/get-users.js" },
+    { "src": "/api/secure-login", "dest": "/api/secure-login.js" },
+    { "src": "/api/vulnerable-login", "dest": "/api/vulnerable-login.js" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
